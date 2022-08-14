@@ -1,7 +1,7 @@
 import React from "react";
 
 const Main = () => {
-  return <div>route 들어갈 부분</div>;
+  return <div>메인페이지</div>;
 };
 
 export default Main;
