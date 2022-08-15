@@ -1,51 +1,37 @@
-import React, { useCallback, useState } from "react";
-import Title from "../Todo/Title";
-import Container from "../Todo/Container";
-import { getItem, setItem } from "../lib/storage";
-import debounce from "lodash.debounce";
-
-const debounceSetItem = debounce(setItem, 1000);
+import React, { useRef, useState } from "react";
+import Editor from "../Todo/Editor";
+import List from "../Todo/List";
 
 const Main = () => {
-  const [todos, setTodos] = useState(getItem("todo") || []);
-  const [selectedTodo, setSelectedTodo] = useState(0);
-  const setTodo = useCallback(
-    (newTodo) => {
-      const newTodos = [...todos];
-      newTodos[selectedTodo] = newTodo;
-      setTodos(newTodos);
-      debounceSetItem("todo", newTodos);
-    },
-    [selectedTodo, todos]
-  );
-  const addTodo = useCallback(() => {
-    const newTodos = [...todos, { title: "untitled", content: "" }];
-    setTodos(newTodos);
-    setSelectedTodo(todos.length);
-    debounceSetItem("todo", newTodos);
-  }, [todos]);
-  const deleteTodo = useCallback(
-    (index) => {
-      const newTodos = [...todos];
-      newTodos.splice(index, 1);
-      setTodos(newTodos);
-      if (index === selectedTodo) {
-        setSelectedTodo(0);
-      }
-      debounceSetItem("todo", newTodos);
-    },
-    [selectedTodo, todos]
-  );
+  const [data, setData] = useState([]);
+  const dataId = useRef(0);
+  const onCreate = (content) => {
+    const newItem = {
+      content,
+      id: dataId.current,
+    };
+    dataId.current += 1;
+    setData([newItem, ...data]);
+  };
+  const onRemove = (targetId) => {
+    const newDataList = data.filter((it) => it.id !== targetId);
+    setData(newDataList);
+  };
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    );
+  };
   return (
     <div className="todo">
-      <Title
-        todos={todos}
-        setSelectedTodo={setSelectedTodo}
-        selectedTodo={selectedTodo}
-        addTodo={addTodo}
-        deleteTodo={deleteTodo}
+      <Editor onCreate={onCreate} />
+      <List
+        todoList={data}
+        onRemove={onRemove}
+        onEdit={onEdit}
       />
-      <Container todo={todos[selectedTodo]} setTodo={setTodo} />
     </div>
   );
 };

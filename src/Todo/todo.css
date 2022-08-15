@@ -1,0 +1,9 @@
+.finish {
+  text-decoration: none;
+  color: black;
+}
+
+.finish.active {
+  text-decoration: line-through;
+  color: gray;
+}/*# sourceMappingURL=todo.css.map */
