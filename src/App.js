@@ -1,10 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./components/Main";
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
-import Nav from "./components/Nav";
 import Todo from "./components/Todo";
+import Redirect from "./route/Redirect";
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -14,11 +13,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav auth={auth} setAuth={setAuth} />
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login setAuth={setAuth} />} />
-          <Route path="/todo" element={<Todo />} />
+          <Route path="/" element={<Login setAuth={setAuth} />} />
+          <Route path="/todo" element={<Redirect auth={auth} />} />
         </Routes>
       </BrowserRouter>
     </div>
