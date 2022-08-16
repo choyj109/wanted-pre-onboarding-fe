@@ -1,18 +1,7 @@
-# Getting Started with Create React App
+# Project Onboarding
 
-## Available Scripts
+프로젝트의 실행 방법
+`npm start`
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-### `npm run build`
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+데모영상
+public 폴더 > demoVideo.mp4
