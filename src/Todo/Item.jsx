@@ -11,6 +11,10 @@ const Item = ({ onEdit, content, id, onRemove }) => {
   const handleRemove = () => {
     onRemove(id);
   };
+  const handleQuitEdit = () => {
+    setIsEdit(false);
+    setLocalContent(content);
+  };
   const handleEdit = () => {
     onEdit(id, localContent);
     toggleEdit();
@@ -36,6 +40,7 @@ const Item = ({ onEdit, content, id, onRemove }) => {
       <div>
         {isEdit ? (
           <>
+            <button onClick={handleQuitEdit}>수정취소</button>
             <button onClick={handleEdit}>수정완료</button>
           </>
         ) : (

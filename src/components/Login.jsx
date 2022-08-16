@@ -6,17 +6,32 @@ const Login = ({ setAuth }) => {
   const [password, setPassword] = useState("");
   const [pwCheck, setPwCheck] = useState("");
   const [pwError, setPwError] = useState("");
+  const [inputId, setInputId] = useState();
+  const [inputPw, setInputPw] = useState();
   const navigate = useNavigate();
   const login = (e) => {
     e.preventDefault();
-    setAuth(true);
-    navigate("/todo");
+    if (inputId === "user@email.com" && inputPw === "password") {
+      setAuth(true);
+      navigate("/todo");
+    } else {
+      setAuth(false);
+      window.alert("아이디 혹은 비밀번호가 맞지 않습니다");
+      return false;
+    }
+  };
+  const onChangeId = (e) => {
+    setInputId(e.currentTarget.value);
+  };
+  const onChangePw = (e) => {
+    setInputPw(e.target.value);
   };
   const join = (e) => {
     e.preventDefault();
     if (password !== pwCheck) {
       return setPwError(true);
     } else {
+      setAuth(true);
       navigate("/todo");
     }
   };
@@ -27,6 +42,7 @@ const Login = ({ setAuth }) => {
   const changePw = (e) => {
     setPassword(e.target.value);
   };
+
   return (
     <div className="login">
       <form
@@ -36,11 +52,25 @@ const Login = ({ setAuth }) => {
       >
         <div>
           <label htmlFor="userId">아이디</label>
-          <input type="email" id="userId" placeholder="이메일" required />
+          <input
+            type="email"
+            id="userId"
+            placeholder="이메일"
+            required
+            onChange={onChangeId}
+            value={inputId || ""}
+          />
         </div>
         <div>
           <label htmlFor="userPw">비밀번호</label>
-          <input type="password" id="userPw" placeholder="비밀번호" required />
+          <input
+            type="password"
+            id="userPw"
+            placeholder="비밀번호"
+            required
+            onChange={onChangePw}
+            value={inputPw || ""}
+          />
         </div>
         <input type="submit" value="로그인" />
       </form>
@@ -62,6 +92,7 @@ const Login = ({ setAuth }) => {
             onChange={changePw}
             value={password}
             required
+            minLength={8}
           />
         </div>
         <div>
@@ -73,6 +104,7 @@ const Login = ({ setAuth }) => {
             onChange={checkPw}
             value={pwCheck}
             required
+            minLength={8}
           />
           {pwError && <div>비밀번호가 일치하지 않습니다</div>}
         </div>
